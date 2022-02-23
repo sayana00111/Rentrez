@@ -1,0 +1,63 @@
+---
+title: "Analysis"
+author: "Sayana"
+output: html_document
+---
+Import the Sequences.csv file:
+```{r}
+sequence <- read.csv("Sequences.csv")
+```
+Count the number of each base pair (A, T, C and G), in each of the three sequences. (Hint: do not include any characters from the header, use the nucleotide sequence only; you MIGHT use gsub(), nchar(), for loops, if/then statements) and print out each sequence.
+```{r}
+counting <- function(var=x){
+  line1a <- gsub("G|C|T","",var)
+  nA <- nchar(line1a)
+  line1t <- gsub("G|C|A","",line1)
+  nT <- nchar(line1t)
+  line1c <- gsub("G|A|T","",line1)
+  nC <- nchar(line1c)
+  line1g <- gsub("A|C|T","",line1)
+  nG <- nchar(line1g)
+  outlist <- list(input=var,baseA=nA,baseT=nT,baseC=nC,baseG=nG)
+  return(outlist)
+}
+```
+  For sequence 1
+```{r}
+counting(var=sequence$Sequence[1])
+```
+for sequence 2:
+```{r}
+counting(var=sequence$Sequence[2])
+```
+for sequence 3:
+```{r}
+counting(var=sequence$Sequence[3])
+```
+
+Print out the number of each nucleotide as a table for each of the three sequences.
+```{r}
+tab <- matrix(c(154, 114, 82, 131, 155, 114, 82, 131,154, 114, 82, 131), ncol=4,byrow=TRUE)
+colnames(tab) <- c('baseA','baseT','baseC', 'baseG')
+rownames(tab) <- c('HQ433692.1','HQ433694.1','HQ433691.1')
+print(tab)
+```
+
+Include an image of a bacteria from the internet, and a link to the Wikipedia page about Borrelia burgdorferi
+![The image of a bacteria](/Users/sayana/Desktop/Rentrez/Imunologia-Borrelia-burgdorferi.jpeg)
+[link from Wikipedia](https://en.wikipedia.org/wiki/Borrelia_burgdorferi)
+
+Calculate GC Content (% of nucleotides that are G or C) and create a final table showing GC content for each sequence ID, for example:
+
+```{r}
+tab <- as.data.frame(t(tab))
+tab <- as.data.frame(t(tab)) #here I have a question. Why does It only work when I enter this command twice.
+```
+```{r}
+tab$total=tab$baseA+tab$baseT+tab$baseC+tab$baseG
+```
+```{r}
+tab$CGcontent=((tab$baseC+tab$baseG)/tab$total*100)
+tab
+```
+
